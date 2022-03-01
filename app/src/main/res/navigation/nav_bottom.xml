@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_bottom"
+    app:startDestination="@+id/navigation_explore">
+
+  <fragment
+      android:id="@+id/navigation_explore"
+      android:name="com.softvision.tmdb.ui.explore.ExploreFragment"
+      android:label="@string/explore"
+      tools:layout="@layout/fragment_explore">
+    <action
+        android:id="@+id/action_explore_to_details"
+        app:destination="@id/navigation_details" />
+  </fragment>
+
+  <fragment
+      android:id="@+id/navigation_movies"
+      android:name="com.softvision.tmdb.ui.items.movies.MoviesFragment"
+      android:label="@string/movies"
+      tools:layout="@layout/fragment_tmbd_items">
+    <action
+        android:id="@+id/action_movies_to_details"
+        app:destination="@id/navigation_details" />
+  </fragment>
+
+  <fragment
+      android:id="@+id/navigation_tv_shows"
+      android:name="com.softvision.tmdb.ui.items.tvShows.TvShowsFragment"
+      android:label="@string/tv_shows"
+      tools:layout="@layout/fragment_tmbd_items">
+    <action
+        android:id="@+id/action_tv_shows_to_details"
+        app:destination="@id/navigation_details" />
+  </fragment>
+
+  <fragment
+      android:id="@+id/navigation_favorites"
+      android:name="com.softvision.tmdb.ui.favorites.FavoritesFragment"
+      android:label="@string/favorites"
+      tools:layout="@layout/fragment_favorites">
+    <action
+        android:id="@+id/action_favorites_to_details"
+        app:destination="@id/navigation_details" />
+  </fragment>
+
+  <fragment
+      android:id="@+id/navigation_search"
+      android:name="com.softvision.tmdb.ui.search.SearchFragment"
+      android:label="@string/search"
+      tools:layout="@layout/fragment_search">
+    <action
+        android:id="@+id/action_search_to_details"
+        app:destination="@id/navigation_details" />
+  </fragment>
+
+  <fragment
+      android:id="@+id/navigation_details"
+      android:name="com.softvision.tmdb.ui.details.DetailsFragment"
+      android:label="@string/details"
+      tools:layout="@layout/fragment_details">
+    <argument
+        android:name="tmdbItem"
+        app:argType="com.softvision.model.media.TmdbItem" />
+  </fragment>
+
+</navigation>

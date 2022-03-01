@@ -1,0 +1,73 @@
+plugins {
+  id 'com.android.library'
+  id 'kotlin-android'
+  id 'kotlin-kapt'
+}
+
+android {
+  compileSdk 30
+
+  defaultConfig {
+    minSdk 21
+    targetSdk 30
+    versionCode 1
+    versionName "1.0"
+
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    consumerProguardFiles "consumer-rules.pro"
+
+    buildConfigField 'String', 'TMDB_API_KEY_V3', '"dc25a58f64287ab92787f3c0d3a103f9"'
+    buildConfigField 'String', 'TMDB_API_KEY_V4', '"eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkYzI1YTU4ZjY0Mjg3YWI5Mjc4N2YzYzBkM2ExMDNmOSIsInN1YiI6IjYwMTI3YjZkYjViYzIxMDAzZDk2NjY3NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.XRHPBG9H_ukOOzXb0Arw3cnPDVZpcWOAaHi5qeE2-u4"'
+    buildConfigField 'String', 'ACCOUNT_ID', '"lucian.cadaru"'
+    buildConfigField 'String', 'ACCOUNT_PASSWORD', '"Softvision10"'
+
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+  }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+  kotlinOptions {
+    jvmTarget = '1.8'
+  }
+}
+
+dependencies {
+  implementation project(path: ':model')
+  implementation project(path: ':preferences')
+  testImplementation project(path: ':konveyor')
+
+  //retrofit
+  implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+  implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+  implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3'
+
+  //hilt
+  implementation "com.google.dagger:hilt-android:$hilt_version"
+  kapt "com.google.dagger:hilt-compiler:$hilt_version"
+
+  //coroutines
+  implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+
+  //timber
+  implementation  "com.jakewharton.timber:timber:$timber_version"
+
+  //testing
+  testImplementation "junit:junit:$junit_version"
+  testImplementation "androidx.arch.core:core-testing:2.1.0"
+  androidTestImplementation "androidx.test.ext:junit-ktx:$junit_ktx_version"
+  androidTestImplementation "androidx.test:runner:$instrumentation_version"
+  androidTestImplementation "androidx.test:rules:$instrumentation_version"
+  testImplementation "io.mockk:mockk:$mockk_version"
+  testImplementation "io.mockk:mockk-agent-jvm:$mockk_version"
+  testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
+  testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+  testImplementation 'com.squareup.okhttp3:mockwebserver:4.0.0'
+
+}

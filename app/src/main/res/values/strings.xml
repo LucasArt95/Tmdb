@@ -1,3 +1,20 @@
 <resources>
-  <string name="app_name">TmbdRemake</string>
+  <string name="app_name">TmdbRemake</string>
+  <string name="explore">Explore</string>
+  <string name="movies">Movies</string>
+  <string name="tv_shows">TV Shows</string>
+  <string name="favorites">Favorites</string>
+  <string name="search">Search</string>
+  <string name="popular">Popular</string>
+  <string name="top_rated">Top Rated</string>
+  <string name="trending">Trending</string>
+  <string name="upcoming">Upcoming</string>
+  <string name="now_playing">Now Playing</string>
+  <string name="theme">Theme</string>
+  <string name="details">Details</string>
+  <string name="spirited_away_overview">A young girl, Chihiro, becomes trapped in a strange new world of spirits. When her parents undergo a mysterious transformation, she must call upon the courage she never knew she had to free her family.</string>
+  <string name="search_hint">Movie or TV Show</string>
+  <string name="item_card_transition_name">item_card_%1$s</string>
+  <string name="item_card_detail_transition_name">item_card_detail</string>
+
 </resources>
