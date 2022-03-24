@@ -33,6 +33,12 @@ class DetailsFragment : BaseFragment<DetailsIntent, DetailsAction, DetailsResult
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null)
             viewModel.submitIntent(DetailsIntent.InitialIntent(args.tmdbItem))
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            drawingViewId = R.id.nav_host_fragment
+            duration = resources.getInteger(R.integer.animation_duration).toLong()
+            scrimColor = Color.TRANSPARENT
+            setAllContainerColors(requireContext().themeColor(R.attr.colorSurface))
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -41,18 +47,34 @@ class DetailsFragment : BaseFragment<DetailsIntent, DetailsAction, DetailsResult
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        postponeEnterTransition()
+    }
+
     override fun initView() {
         binding.fabFavorite.setOnClickListener {
             getCurrentState().itemData?.let {
                 viewModel.submitIntent(DetailsIntent.SetFavoriteIntent(it.itemId, it.mediaType, it.isFavorite))
             }
         }
+
+        binding.button.visibility = View.VISIBLE
+        val cornerSize = resources.getDimension(R.dimen.corner_size)
+        val shapeModel = ShapeAppearanceModel().toBuilder()
+            .setAllEdges(TriangleEdgeTreatment(cornerSize, false))
+            .setAllCorners(CutCornerTreatment())
+            .setAllCornerSizes(cornerSize)
+            .build()
+        val drawable = MaterialShapeDrawable(shapeModel)
+        binding.button.background = drawable
     }
 
     override fun render(state: DetailsState) {
         binding.flLoading.visibility = if (state.isLoading) View.VISIBLE else View.GONE
         if (state.error != null) showErrorToast(state.error)
         binding.viewData = state
+        startPostponedEnterTransition()
     }
 
 }

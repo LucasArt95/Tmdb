@@ -9,6 +9,7 @@
       android:layout_height="wrap_content"
       android:layout_margin="10dp"
       app:cardCornerRadius="15dp"
+      android:transitionName="@{@string/item_card_transition_name(viewData.itemId)}"
       app:cardElevation="5dp">
 
     <LinearLayout

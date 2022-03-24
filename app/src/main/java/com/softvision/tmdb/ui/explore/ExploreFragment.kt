@@ -38,6 +38,13 @@ class ExploreFragment : BaseFragment<ExploreIntent, ExploreAction, ExploreResult
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null)
             viewModel.submitIntent(ExploreIntent.InitialIntent)
+
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = resources.getInteger(R.integer.animation_duration).toLong()
+        }
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(R.integer.animation_duration).toLong()
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -65,9 +72,10 @@ class ExploreFragment : BaseFragment<ExploreIntent, ExploreAction, ExploreResult
     }
 
     private fun initRecyclerViews() {
-        val onItemClicked: (View, TmdbItem) -> Unit = { _, item ->
+        val onItemClicked: (View, TmdbItem) -> Unit = { view, item ->
             val destination = ExploreFragmentDirections.actionExploreToDetails(item)
-            findNavController().navigate(destination)
+            val extras = FragmentNavigatorExtras(view to getString(R.string.item_card_detail_transition_name))
+            findNavController().navigate(destination,extras)
         }
 
         popularCategoryAdapter = CategoryAdapter(onItemClicked)
