@@ -1,10 +1,10 @@
-package com.softvision.database
+package com.softvision.database.dao
 
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.github.vacxe.konveyor.base.randomBuild
-import com.softvision.database.dao.MovieDao
+import com.softvision.database.TmdbDatabase
 import com.softvision.database.model.MovieEntity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest

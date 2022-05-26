@@ -12,6 +12,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Before
@@ -74,8 +75,8 @@ class MovieRepositoryImplTest {
     fun `getCategory gets data from remote and saves it locally when local doesn't have it`() = runTest {
         val sortType = SortType.values().random()
         coEvery { localDataSource.getMovies(any(), any<SortType>()) } throws Exception("Test Exception")
-        coEvery { localDataSource.saveMovies(any(), any<SortType>()) } returns Unit
-        coEvery { localDataSource.saveTvShows(any(), any<SortType>()) } returns Unit
+        coEvery { localDataSource.saveMovies(any(), any<SortType>()) } returns Job()
+        coEvery { localDataSource.saveTvShows(any(), any<SortType>()) } returns Job()
         coEvery { remoteDataSource.getMovies(any(), any<SortType>()) } returns movieResult
         coEvery { remoteDataSource.getTvShows(any(), any<SortType>()) } returns tvShowsResult
         val expectedResult = ItemResult(
@@ -107,7 +108,7 @@ class MovieRepositoryImplTest {
     fun `getMovies by sort type gets data from remote and saves it locally when local doesn't have it`() = runTest {
         val sortType = SortType.values().random()
         coEvery { localDataSource.getMovies(any(), any<SortType>()) } throws Exception("Test Exception")
-        coEvery { localDataSource.saveMovies(any(), any<SortType>()) } returns Unit
+        coEvery { localDataSource.saveMovies(any(), any<SortType>()) } returns Job()
         coEvery { remoteDataSource.getMovies(any(), any<SortType>()) } returns movieResult
 
         val result = movieRepository.getMovies(page, sortType)
@@ -131,7 +132,7 @@ class MovieRepositoryImplTest {
     fun `getMovies by genre gets data from remote and saves it locally when local doesn't have it`() = runTest {
         val genre: Genre = randomBuild()
         coEvery { localDataSource.getMovies(any(), any<Long>()) } throws Exception("Test Exception")
-        coEvery { localDataSource.saveMovies(any(), any<Long>()) } returns Unit
+        coEvery { localDataSource.saveMovies(any(), any<Long>()) } returns Job()
         coEvery { remoteDataSource.getMovies(any(), any<Long>()) } returns movieResult
 
         val result = movieRepository.getMovies(page, genre)
@@ -155,7 +156,7 @@ class MovieRepositoryImplTest {
     fun `getTvShows by sort type gets data from remote and saves it locally when local doesn't have it`() = runTest {
         val sortType = SortType.values().random()
         coEvery { localDataSource.getTvShows(any(), any<SortType>()) } throws Exception("Test Exception")
-        coEvery { localDataSource.saveTvShows(any(), any<SortType>()) } returns Unit
+        coEvery { localDataSource.saveTvShows(any(), any<SortType>()) } returns Job()
         coEvery { remoteDataSource.getTvShows(any(), any<SortType>()) } returns tvShowsResult
 
         val result = movieRepository.getTvShows(page, sortType)
@@ -179,7 +180,7 @@ class MovieRepositoryImplTest {
     fun `getTvShows by genre gets data from remote and saves it locally when local doesn't have it`() = runTest {
         val genre: Genre = randomBuild()
         coEvery { localDataSource.getTvShows(any(), any<Long>()) } throws Exception("Test Exception")
-        coEvery { localDataSource.saveTvShows(any(), any<Long>()) } returns Unit
+        coEvery { localDataSource.saveTvShows(any(), any<Long>()) } returns Job()
         coEvery { remoteDataSource.getTvShows(any(), any<Long>()) } returns tvShowsResult
 
         val result = movieRepository.getTvShows(page, genre)
@@ -201,7 +202,7 @@ class MovieRepositoryImplTest {
     @Test
     fun `getMovieGenres gets data from remote and saves it locally when local doesn't have it`() = runTest {
         coEvery { localDataSource.getMovieGenres(any()) } throws Exception("Test Exception")
-        coEvery { localDataSource.saveGenres(any(), any()) } returns Unit
+        coEvery { localDataSource.saveGenres(any(), any()) } returns Job()
         coEvery { remoteDataSource.getMovieGenres(any()) } returns expectedGenres
 
         val result = movieRepository.getMovieGenres(requestedGenres)
@@ -223,7 +224,7 @@ class MovieRepositoryImplTest {
     @Test
     fun `getTvShowGenres gets data from remote and saves it locally when local doesn't have it`() = runTest {
         coEvery { localDataSource.getTvShowGenres(any()) } throws Exception("Test Exception")
-        coEvery { localDataSource.saveGenres(any(), any()) } returns Unit
+        coEvery { localDataSource.saveGenres(any(), any()) } returns Job()
         coEvery { remoteDataSource.getTvShowGenres(any()) } returns expectedGenres
 
         val result = movieRepository.getTvShowGenres(requestedGenres)
@@ -231,7 +232,6 @@ class MovieRepositoryImplTest {
         coVerify { localDataSource.saveGenres(expectedGenres, MediaType.TV_SHOW) }
         Assert.assertEquals(true, result.containsAll(expectedGenres))
     }
-
 
     @Test
     fun `getAccountDetails gets data from local and doesn't request from remote`() = runTest {

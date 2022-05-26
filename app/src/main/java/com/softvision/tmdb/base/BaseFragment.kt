@@ -38,7 +38,7 @@ abstract class BaseFragment<I : BaseIntent, A : BaseAction, R : BaseResult, S : 
     @ExperimentalCoroutinesApi
     private fun observeState() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.CREATED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 viewModel.state.collect {
                     currentState = it
                     render(it)

@@ -47,7 +47,7 @@ class InterceptorsTest {
     }
 
     @Test
-    fun apiKeyInterceptorAppendsApiKeyInQueryPath() {
+    fun `ApiKeyInterceptor appends API key in query path`() {
         val apiKey: String = BuildConfig.TMDB_API_KEY_V3
         val queryString = "api_key=$apiKey"
         mockWebServer.enqueue(MockResponse())
@@ -60,7 +60,7 @@ class InterceptorsTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun tmdbInterceptorAppendsApiKeyAndSessionIdInQueryPath() = runTest {
+    fun `TmdbInterceptor appends API key and sessionId in query path`() = runTest {
         val apiKey: String = BuildConfig.TMDB_API_KEY_V3
         val apiKeyQueryString = "api_key=$apiKey"
         val sessionId = UUID.randomUUID().toString()

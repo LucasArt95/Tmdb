@@ -83,4 +83,15 @@ dependencies {
 
   //timber
   implementation  "com.jakewharton.timber:timber:$timber_version"
+
+  //testing
+  androidTestImplementation project(path: ':konveyor')
+  androidTestImplementation "junit:junit:$junit_version"
+  androidTestImplementation "androidx.test.ext:junit-ktx:$junit_ktx_version"
+  androidTestImplementation "androidx.test:runner:$instrumentation_version"
+  androidTestImplementation "androidx.test:rules:$instrumentation_version"
+  androidTestImplementation "io.mockk:mockk-android:$mockk_version"
+  debugImplementation 'androidx.fragment:fragment-testing:1.4.1'
+  androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+  androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
 }

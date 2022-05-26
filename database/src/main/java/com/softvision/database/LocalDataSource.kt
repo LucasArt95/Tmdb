@@ -66,13 +66,13 @@ class LocalDataSource @Inject internal constructor(
         )
     }
 
-    suspend fun getMovieGenres(genreIds: List<Long>?): List<Genre> {
+    suspend fun getMovieGenres(genreIds: List<Long>? = null): List<Genre> {
         val genres = genresDao.getGenres(MediaType.MOVIE)
         if (genres.isNullOrEmpty()) throw EmptyTableException("The Genres Table is empty")
         return genres.filter { genre -> genreIds?.contains(genre.id) ?: true }.map { Genre(it.id, it.name) }
     }
 
-    suspend fun getTvShowGenres(genreIds: List<Long>?): List<Genre> {
+    suspend fun getTvShowGenres(genreIds: List<Long>? = null): List<Genre> {
         val genres = genresDao.getGenres(MediaType.TV_SHOW)
         if (genres.isNullOrEmpty()) throw EmptyTableException("The Genres Table is empty")
         return genres.filter { genre -> genreIds?.contains(genre.id) ?: true }.map { Genre(it.id, it.name) }
@@ -83,7 +83,7 @@ class LocalDataSource @Inject internal constructor(
         return accountDetails ?: throw EmptyPreferenceException("Account details not found")
     }
 
-    fun saveMovies(itemResult: ItemResult<Movie>, sortType: SortType) {
+    fun saveMovies(itemResult: ItemResult<Movie>, sortType: SortType) =
         scope.launch {
             movieDao.saveMovies(itemResult.results.toMovieEntity())
             val resultId = resultsDao.saveMovieResult(
@@ -98,9 +98,8 @@ class LocalDataSource @Inject internal constructor(
                 resultsDao.saveMovieResultCrossRef(MovieResultCrossRef(it.itemId, resultId))
             }
         }
-    }
 
-    fun saveMovies(itemResult: ItemResult<Movie>, genreId: Long) {
+    fun saveMovies(itemResult: ItemResult<Movie>, genreId: Long) =
         scope.launch {
             movieDao.saveMovies(itemResult.results.toMovieEntity())
             val resultId = resultsDao.saveMovieResult(
@@ -115,9 +114,8 @@ class LocalDataSource @Inject internal constructor(
                 resultsDao.saveMovieResultCrossRef(MovieResultCrossRef(it.itemId, resultId))
             }
         }
-    }
 
-    fun saveTvShows(itemsResult: ItemResult<TvShow>, sortType: SortType) {
+    fun saveTvShows(itemsResult: ItemResult<TvShow>, sortType: SortType) =
         scope.launch {
             tvShowDao.saveTvShows(itemsResult.results.toTvShowEntity())
             val resultId = resultsDao.saveTvShowResult(
@@ -132,9 +130,8 @@ class LocalDataSource @Inject internal constructor(
                 resultsDao.saveTvShowResultCrossRef(TvShowResultCrossRef(tvShow.itemId, resultId))
             }
         }
-    }
 
-    fun saveTvShows(itemsResult: ItemResult<TvShow>, genreId: Long) {
+    fun saveTvShows(itemsResult: ItemResult<TvShow>, genreId: Long) =
         scope.launch {
             tvShowDao.saveTvShows(itemsResult.results.toTvShowEntity())
             val resultId = resultsDao.saveTvShowResult(
@@ -149,13 +146,11 @@ class LocalDataSource @Inject internal constructor(
                 resultsDao.saveTvShowResultCrossRef(TvShowResultCrossRef(tvShow.itemId, resultId))
             }
         }
-    }
 
-    fun saveGenres(genres: List<Genre>, mediaType: MediaType) {
+    fun saveGenres(genres: List<Genre>, mediaType: MediaType) =
         scope.launch {
             genresDao.saveGenres(genres.map { GenreEntity(it.id, it.name, mediaType) })
         }
-    }
 
     fun saveAccountDetails(accountDetails: AccountDetails) {
         tmdbSharedPreferences.savePreference(TmdbPreferenceKey.ACCOUNT_DETAILS, accountDetails)
@@ -168,7 +163,7 @@ class LocalDataSource @Inject internal constructor(
 
 }
 
-private fun List<MovieEntity>.toMovies(): List<Movie> =
+internal fun List<MovieEntity>.toMovies(): List<Movie> =
     this.map {
         Movie(
             itemId = it.itemId,
@@ -189,7 +184,7 @@ private fun List<MovieEntity>.toMovies(): List<Movie> =
         )
     }
 
-private fun List<Movie>.toMovieEntity(): List<MovieEntity> =
+internal fun List<Movie>.toMovieEntity(): List<MovieEntity> =
     this.map {
         MovieEntity(
             itemId = it.itemId,
@@ -210,7 +205,7 @@ private fun List<Movie>.toMovieEntity(): List<MovieEntity> =
         )
     }
 
-private fun List<TvShowEntity>.toTvShows(): List<TvShow> =
+internal fun List<TvShowEntity>.toTvShows(): List<TvShow> =
     this.map {
         TvShow(
             itemId = it.itemId,
@@ -230,7 +225,7 @@ private fun List<TvShowEntity>.toTvShows(): List<TvShow> =
         )
     }
 
-private fun List<TvShow>.toTvShowEntity(): List<TvShowEntity> =
+internal fun List<TvShow>.toTvShowEntity(): List<TvShowEntity> =
     this.map {
         TvShowEntity(
             itemId = it.itemId,
