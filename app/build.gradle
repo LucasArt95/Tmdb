@@ -17,7 +17,7 @@ android {
     versionCode 1
     versionName "1.0"
 
-    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner "com.softvision.tmdb.HiltTestRunner"
   }
 
   buildFeatures {
@@ -43,11 +43,11 @@ android {
 
   hilt {
     enableAggregatingTask = true
+    enableTransformForLocalTests = true
   }
-
 }
 
-kapt{
+kapt {
   correctErrorTypes true
 }
 
@@ -55,10 +55,10 @@ dependencies {
   implementation project(path: ':domain')
   implementation project(path: ':model')
 
-  implementation 'androidx.core:core-ktx:1.7.0'
-  implementation 'androidx.appcompat:appcompat:1.4.0'
-  implementation 'com.google.android.material:material:1.5.0-beta01'
-  implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
+  implementation 'androidx.core:core-ktx:1.8.0'
+  implementation 'androidx.appcompat:appcompat:1.4.2'
+  implementation 'com.google.android.material:material:1.6.1'
+  implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
   implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
   implementation "androidx.recyclerview:recyclerview:1.2.1"
 
@@ -73,6 +73,8 @@ dependencies {
   //hilt
   implementation "com.google.dagger:hilt-android:$hilt_version"
   kapt "com.google.dagger:hilt-compiler:$hilt_version"
+  androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
+  kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
 
   //Glide
   implementation "com.github.bumptech.glide:glide:$glide_version"
@@ -80,9 +82,10 @@ dependencies {
 
   //coroutines
   implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+  androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
 
   //timber
-  implementation  "com.jakewharton.timber:timber:$timber_version"
+  implementation "com.jakewharton.timber:timber:$timber_version"
 
   //testing
   androidTestImplementation project(path: ':konveyor')
@@ -91,7 +94,7 @@ dependencies {
   androidTestImplementation "androidx.test:runner:$instrumentation_version"
   androidTestImplementation "androidx.test:rules:$instrumentation_version"
   androidTestImplementation "io.mockk:mockk-android:$mockk_version"
-  debugImplementation 'androidx.fragment:fragment-testing:1.4.1'
+  debugImplementation 'androidx.fragment:fragment-testing:1.5.0'
   androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
   androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
 }
